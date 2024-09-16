@@ -1,22 +1,29 @@
 //XuanKe(kecheng).cpp
-#include "Banking.h"
+#include <iostream>
 #include <iomanip>
+#include <vector>
+#include <string>
+#include <unordered_map>
+#include <algorithm>
+using namespace std;
 
-KeCheng::KeCheng(string name, string ID, string time, string teacher, string location, int cap) : courseName(name), courseID(ID), courseTime(time), courseTeacher(teacher), courseLocation(location), capacity(cap), enrolled(0)
-{
+//è¯¾ç¨‹å‡½æ•°å®šä¹‰
+KeCheng::KeCheng(string name, string ID, string time, string teacher, string location, int cap) :courseName(name),courseID(ID), courseTime(time),courseTeacher(teacher),courseLocation(location),capacity(cap),enrolled(0)
+{  
 }
 
-// ¸ù¾İ¼¨µãÅÅĞòÑ§Éú
-void sortStudents() 
+// æ ¹æ®ç»©ç‚¹æ’åºå­¦ç”Ÿ
+void KeCheng::sortStudents() 
 {
-    sort(students.begin(), students.end(), [](const Student& a, const Student& b) 
+    std::sort(students.begin(), students.end(), [](const Student& a, const Student& b)
         {
         return a.gpa > b.gpa;
         });
+
 }
 
-// ÌŞ³ı³¬³öÈİÁ¿µÄÑ§Éú
-void deleteStudents()
+// å‰”é™¤è¶…å‡ºå®¹é‡çš„å­¦ç”Ÿ
+void KeCheng::deleteStudents()
 {
     if (students.size() > capacity) 
     {
@@ -25,14 +32,14 @@ void deleteStudents()
     }
 }
 
-// Êä³ö¿Î³Ì³ÉÔ±
-void printCourseMembers() const 
+// è¾“å‡ºè¯¾ç¨‹æˆå‘˜
+void KeCheng::printCourseMembers() const
 {
     cout << "Course: " << courseName << " (" << courseNumber << ")" << endl;
     cout << "Time: " << courseTime << ", Teacher: " << courseTeacher << ", Location: " << courseLocation << endl;
     cout << "Enrolled Students: " << std::endl;
-    for (const auto& student : students) {
+    for (const auto& student : students) 
+    {
         cout << "  " << student.name << " (GPA: " << student.gpa << ")" << endl;
     }
 }
-};
