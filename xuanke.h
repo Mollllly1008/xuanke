@@ -1,27 +1,28 @@
 //XuanKe.h
 #ifndef XUANKE_H
 #define XUANKE_H
-#include "LinkList.h"
-#include "Banking.h"
 #include <iomanip>
+#include <vector>
+#include <string>
+#include <unordered_map>
+#include <algorithm>
+#include <iostream>
 using namespace std;
  
-class student;//ÌáÇ°ÉùÃ÷
-
 class Student
 {
-public://ÉùÃ÷º¯Êı¼´¿É
+public://å£°æ˜å‡½æ•°å³å¯
 private:
 
-};//StudentµÄÊôĞÔ£¬²ÎÕÕAddressBookÓëBankingµÄclass
+};//Studentçš„å±æ€§ï¼Œå‚ç…§AddressBookä¸Bankingçš„class
 
 class KeCheng
 {
 public:
-    Kecheng(string name, string ID, string time, string teacher, string location, int cap)
-    void sortStudents();//¸ù¾İ¼¨µãÅÅĞòÑ§Éú
-    void deleteStudents();//ÌŞ³ı³¬³öÈİÁ¿µÄÑ§Éú
-    void printCourseMembers() const;//Êä³ö¿Î³Ì³ÉÔ±
+    KeCheng(string name, string ID, string time, string teacher, string location, int cap);
+    void sortStudents();//æ ¹æ®ç»©ç‚¹æ’åºå­¦ç”Ÿ
+    void deleteStudents();//å‰”é™¤è¶…å‡ºå®¹é‡çš„å­¦ç”Ÿ
+    void printCourseMembers() const;//è¾“å‡ºè¯¾ç¨‹æˆå‘˜
 
 private:
     string courseName, courseNumber, courseTime, courseTeacher, courseLocation;
