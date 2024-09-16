@@ -3,28 +3,74 @@
 #include "Banking.h"
 #include <conio.h>
 
-class Student
-{
-public://ÉùÃ÷º¯Êı¼´¿É
+class Student {
+public:
+    Student(const char* ID = "00000000", const char* Name = "NoName", double GPA = 0.0);
+    Student(const Student& other);
+    ~Student();
+    Student& operator=(const Student& other);
+    bool Login(const char* ID, const char* Password);//ç™»é™†è´¦å·
+    void QueryCourses();//æŸ¥è¯¢è¯¾ç¨‹
+    bool SelectCourse(const string& courseID);//é€‰è¯¾
+    void QuerySelectedCourses();//æŸ¥è¯¢é€‰è¯¾æƒ…å†µ
+    bool DropCourse(const string& courseID);//é€€è¯¾
+    void Logout();//é€€å‡ºè´¦å·
+
 private:
+    string id, name;
+    double GPA;
+    LinkList<KeCheng> selectedCourses;
+};//Studentçš„å±æ€§ï¼Œå‚ç…§AddressBookä¸Bankingçš„class
 
-};//StudentµÄÊôĞÔ£¬²ÎÕÕAddressBookÓëBankingµÄclass
-
-Student::Student()//ÔÚÍâÃæ¶¨Òå¸ÕÉùÃ÷µÄº¯Êı
+Student::Student(const char* ID = "00000000", const char* Name = "NoName", double GPA = 0.0))//åœ¨å¤–é¢å®šä¹‰åˆšå£°æ˜çš„å‡½æ•°
 {
 }
 
+LinkList<KeCheng> g_allCourses;//å­˜å‚¨æ‰€æœ‰è¯¾ç¨‹ä¿¡æ¯
+
+bool Login(const char* ID, const char* Password) {
+    if (this->id == ID && Password == "password") {
+        cout << name << " logged in successfully." << endl;
+        return true;
+    }
+    else {
+        cout << "Login failed. Incorrect ID or password." << endl;
+        return false;
+    }
+}//ç™»é™†è´¦å·
+
+void QueryCourses() {
+    cout << "è¯¾ç¨‹:" << endl;
+    g_allCourses.ShowList();
+}//æŸ¥è¯¢è¯¾ç¨‹
+
+bool SelectCourse(const string& courseID){
+	
+}//é€‰è¯¾
+
+void QuerySelectedCourses() {
+    cout << name << "å·²é€‰è¯¾ç¨‹:" << endl;
+    selectedCourses.ShowList();
+}//æŸ¥è¯¢é€‰è¯¾æƒ…å†µ
+
+bool DropCourse(const string& courseID){
+	 
+ }//é€€è¯¾
+
+void Logout() {
+        cout << name << " has logged out." << endl;
+    }//é€€å‡ºç™»é™†
 class KeCheng
 {
-public://ÉùÃ÷º¯Êı¼´¿É
+public://å£°æ˜å‡½æ•°å³å¯
 private:
 
 };
 
-KeCheng::KeCheng()//ÔÚÍâÃæ¶¨Òå¸ÕÉùÃ÷µÄº¯Êı
+KeCheng::KeCheng()//åœ¨å¤–é¢å®šä¹‰åˆšå£°æ˜çš„å‡½æ•°
 {
 }
-//¼ÇµÃ¶¨ÒåËÄ¸ö³ÉÔ±º¯Êı
+//è®°å¾—å®šä¹‰å››ä¸ªæˆå‘˜å‡½æ•°
 template <typename T>
 void XuanKeTest()
 {
@@ -33,49 +79,49 @@ void XuanKeTest()
 	char key;
 	while (true)
 	{
-		cout << "\n\n========= Ñ¡¿ÎÏµÍ³ =========" << endl;
-		cout << "  a ---- µÇÂ¼Ñ§ÉúÕËºÅ (P)" << endl;
-		cout << "  b ---- Ñ¡Ôñ    ¿Î³Ì (I)" << endl;
-		cout << "  c ---- ²éÑ¯Ñ¡¿ÎÅÅÃû (A)" << endl;
-		cout << "  d ---- ÍË        ¿Î (S)" << endl;
-		cout << "  e ---- Êä³ö    ¿Î±í (E)" << endl;
-		cout << "  f ---- ÍË³öÑ§ÉúÕËºÅ (V)" << endl;
-		cout << "  g ---- µÇÂ¼ÀÏÊ¦ÕËºÅ (O)" << endl;
-		cout << "  h ---- ¼¨µã    ÅÅĞò (W)" << endl;
-		cout << "  i ---- Ìß        ¿Î (R)" << endl;
-		cout << "  j ---- Êä³ö¿Î³Ì³ÉÔ± (F)" << endl;
-		cout << "  k ---- ÍË³öÀÏÊ¦ÕËºÅ (Q)" << endl;
-		cout << "  l ---- ÍË³ö    ÍøÕ¾(ESC)" << endl;
+		cout << "\n\n========= é€‰è¯¾ç³»ç»Ÿ =========" << endl;
+		cout << "  a ---- ç™»å½•å­¦ç”Ÿè´¦å· (P)" << endl;
+		cout << "  b ---- é€‰æ‹©    è¯¾ç¨‹ (I)" << endl;
+		cout << "  c ---- æŸ¥è¯¢é€‰è¯¾æ’å (A)" << endl;
+		cout << "  d ---- é€€        è¯¾ (S)" << endl;
+		cout << "  e ---- è¾“å‡º    è¯¾è¡¨ (E)" << endl;
+		cout << "  f ---- é€€å‡ºå­¦ç”Ÿè´¦å· (V)" << endl;
+		cout << "  g ---- ç™»å½•è€å¸ˆè´¦å· (O)" << endl;
+		cout << "  h ---- ç»©ç‚¹    æ’åº (W)" << endl;
+		cout << "  i ---- è¸¢        è¯¾ (R)" << endl;
+		cout << "  j ---- è¾“å‡ºè¯¾ç¨‹æˆå‘˜ (F)" << endl;
+		cout << "  k ---- é€€å‡ºè€å¸ˆè´¦å· (Q)" << endl;
+		cout << "  l ---- é€€å‡º    ç½‘ç«™(ESC)" << endl;
 		cout << "==========================" << endl;
-		key = Choice("ÇëÑ¡Ôñ", "abcdefghijkl\x1bpPiIaAsSvVoOwWrRfF");
+		key = Choice("è¯·é€‰æ‹©", "abcdefghijkl\x1bpPiIaAsSvVoOwWrRfF");
 		cout << "\n\n";
-		if (key == 27 || key == 'l')		// '\x1b'µÈÓÚ27£¬Ö¸ESC¼ü
+		if (key == 27 || key == 'l')		// '\x1b'ç­‰äº27ï¼ŒæŒ‡ESCé”®
 			break;
 		switch (key)
 		{
 		case 'a':
-		case 'P':	//µÇÂ½Ñ§ÉúÕËºÅ£¨BankingÓëBankingTestÓĞ£©
+		case 'P':	//ç™»é™†å­¦ç”Ÿè´¦å·ï¼ˆBankingä¸BankingTestæœ‰ï¼‰
 		case 'b':
-		case 'I':	//Ñ¡Ôñ¿Î³Ì£¨ÏÈÊäÈë¿Î³ÌºÅ£¬ºóÊä³ö¿Î³ÌµÄ¸÷ÄÚÈİ£¬ÔÙÊä³öÊÇ·ñÑ¡¸Ã¿Î³Ì£¬ÊäÈëyesºó¿Î³ÌµÄÑ§ÉúÊı¾İ¶àÒ»¸ö¸ÃÉú£¬¸ÃÉúµÄ¿Î³ÌÊı¾İ¶àÒ»¸ö¸Ã¿Î³Ì£©cout << "²åÈëÒ»¸ö½áµãµ½Á´±íÊ×½áµãÇ°¡£" << endl;
+		case 'I':	//é€‰æ‹©è¯¾ç¨‹ï¼ˆå…ˆè¾“å…¥è¯¾ç¨‹å·ï¼Œåè¾“å‡ºè¯¾ç¨‹çš„å„å†…å®¹ï¼Œå†è¾“å‡ºæ˜¯å¦é€‰è¯¥è¯¾ç¨‹ï¼Œè¾“å…¥yesåè¯¾ç¨‹çš„å­¦ç”Ÿæ•°æ®å¤šä¸€ä¸ªè¯¥ç”Ÿï¼Œè¯¥ç”Ÿçš„è¯¾ç¨‹æ•°æ®å¤šä¸€ä¸ªè¯¥è¯¾ç¨‹ï¼‰cout << "æ’å…¥ä¸€ä¸ªç»“ç‚¹åˆ°é“¾è¡¨é¦–ç»“ç‚¹å‰ã€‚" << endl;
 		case 'c':
-		case 'A':	//²éÑ¯¿Î³ÌÅÅÃû£¨Êä³öÒ»ÕÅ±í£¬ÓĞ¿Î³ÌºÅ£¬¿Î³ÌÃû³Æ£¬ÈİÁ¿£¬ÅÅÃûµÈ£¬²ÎÕÕÉÏº£´óÑ§µÄÑ¡¿ÎÍøÕ¾µÄÑ¡¿ÎÅÅÃûÇé¿ö£©cout << "×·¼ÓÒ»¸ö½áµã(ÖÁÎ²½áµãºó)¡£";
+		case 'A':	//æŸ¥è¯¢è¯¾ç¨‹æ’åï¼ˆè¾“å‡ºä¸€å¼ è¡¨ï¼Œæœ‰è¯¾ç¨‹å·ï¼Œè¯¾ç¨‹åç§°ï¼Œå®¹é‡ï¼Œæ’åç­‰ï¼Œå‚ç…§ä¸Šæµ·å¤§å­¦çš„é€‰è¯¾ç½‘ç«™çš„é€‰è¯¾æ’åæƒ…å†µï¼‰cout << "è¿½åŠ ä¸€ä¸ªç»“ç‚¹(è‡³å°¾ç»“ç‚¹å)ã€‚";
 			
 		case 'd':
-		case 'S':	//ÍË¿Î(ÊäÈë¿Î³ÌºÅ£¬Êä³öÊÇ·ñÍË¿Î£¬ÊäÈëyes£¬¿Î³ÌÉ¾µôÕâ¸ö½áµã£¬Ñ§ÉúµÄ¿Î³ÌÊı¾İÉ¾µôÕâ¸ö¿Î³Ì)cout << "¸ù¾İÊı¾İÓòÊı¾İ²éÑ¯¡£¿É¸ù¾İÈçÏÂÈıÖÖ·½Ê½²éÑ¯¡£" << endl;
+		case 'S':	//é€€è¯¾(è¾“å…¥è¯¾ç¨‹å·ï¼Œè¾“å‡ºæ˜¯å¦é€€è¯¾ï¼Œè¾“å…¥yesï¼Œè¯¾ç¨‹åˆ æ‰è¿™ä¸ªç»“ç‚¹ï¼Œå­¦ç”Ÿçš„è¯¾ç¨‹æ•°æ®åˆ æ‰è¿™ä¸ªè¯¾ç¨‹)cout << "æ ¹æ®æ•°æ®åŸŸæ•°æ®æŸ¥è¯¢ã€‚å¯æ ¹æ®å¦‚ä¸‹ä¸‰ç§æ–¹å¼æŸ¥è¯¢ã€‚" << endl;
 		case 'e':
-		case 'E'://Êä³ö¿Î±í£¨Êä³öÒ»ÕÅ±í£¬°üº¬¿Î³ÌµÄËùÓĞĞÅÏ¢£©
+		case 'E'://è¾“å‡ºè¯¾è¡¨ï¼ˆè¾“å‡ºä¸€å¼ è¡¨ï¼ŒåŒ…å«è¯¾ç¨‹çš„æ‰€æœ‰ä¿¡æ¯ï¼‰
 		case 'f':
-		case 'V':	//ÍË³öÑ§ÉúÕËºÅ£¨²Î¿¼BankingÓëBankingTest)
+		case 'V':	//é€€å‡ºå­¦ç”Ÿè´¦å·ï¼ˆå‚è€ƒBankingä¸BankingTest)
 		case 'g':
-		case 'O':	//µÇÂ½ÀÏÊ¦ÕËºÅ
+		case 'O':	//ç™»é™†è€å¸ˆè´¦å·
 		case 'h':
-		case 'W':  //¼¨µãÅÅĞò£¨ÔËÓÃÅÅĞòº¯Êı£¬½«¸¡µãÊıµÄ¼¨µãÅÅĞò£¬²¢Êä³ö£¬¿Î³ÌÄ£°åÖĞĞè°üº¬Ñ§Éú¼¨µãÅÅÃû£©
+		case 'W':  //ç»©ç‚¹æ’åºï¼ˆè¿ç”¨æ’åºå‡½æ•°ï¼Œå°†æµ®ç‚¹æ•°çš„ç»©ç‚¹æ’åºï¼Œå¹¶è¾“å‡ºï¼Œè¯¾ç¨‹æ¨¡æ¿ä¸­éœ€åŒ…å«å­¦ç”Ÿç»©ç‚¹æ’åï¼‰
 		case 'i':
-		case 'R':	//Ìß¿Î£¨ÒÔÈİÁ¿ÎªÒÀ¾İ£¬½«ÅÅÃûÔÚÈİÁ¿ÍâµÄ¿Î³ÌÑ§ÉúÊı¾İÉ¾³ı£¬Ñ§ÉúµÄ¸Ã¿Î³ÌÊı¾İÒ²É¾³ı£©
+		case 'R':	//è¸¢è¯¾ï¼ˆä»¥å®¹é‡ä¸ºä¾æ®ï¼Œå°†æ’ååœ¨å®¹é‡å¤–çš„è¯¾ç¨‹å­¦ç”Ÿæ•°æ®åˆ é™¤ï¼Œå­¦ç”Ÿçš„è¯¥è¯¾ç¨‹æ•°æ®ä¹Ÿåˆ é™¤ï¼‰
 		case 'j':
-		case 'F':	//Êä³ö¿Î³Ì³ÉÔ±£¨½«¿Î³ÌµÄÑ§ÉúÊı¾İÊä³ö£©
+		case 'F':	//è¾“å‡ºè¯¾ç¨‹æˆå‘˜ï¼ˆå°†è¯¾ç¨‹çš„å­¦ç”Ÿæ•°æ®è¾“å‡ºï¼‰
 		case 'k':
-		case 'Q':  //ÍË³öÀÏÊ¦ÕËºÅ
+		case 'Q':  //é€€å‡ºè€å¸ˆè´¦å·
 		}
 	}
 
