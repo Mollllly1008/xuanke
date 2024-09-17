@@ -32,6 +32,9 @@ class KeCheng
 {
 public:
     KeCheng(string name, string ID, string time, string teacher, string location, int cap);
+    KeCheng(const KeCheng& other);
+    ~KeCheng();
+    KeCheng& operator=(const KeCheng& other);
     void sortStudents();//根据绩点排序学生
     void deleteStudents();//剔除超出容量的学生
     void printCourseMembers() const;//输出课程成员
