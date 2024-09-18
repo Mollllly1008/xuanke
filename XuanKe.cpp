@@ -99,6 +99,8 @@ public:
     void sortStudents();//根据绩点排序学生
     void deleteStudents();//剔除超出容量的学生
     void printCourseMembers() const;//输出课程成员
+    bool removeStudent(const std::string& studentId)；
+    bool addStudent(const Student& student);
 
 private:
     string courseName, courseNumber, courseTime, courseTeacher, courseLocation;
@@ -142,7 +144,26 @@ void KeCheng::printCourseMembers() const
         cout << "  " << student.name << " (GPA: " << student.gpa << ")" << endl;
     }
 }
-
+bool KeCheng::addStudent(const Student& student) {
+	if (enrolled >= capacity) {
+		cout << "Course is full. Cannot add more students." << endl;
+		return false;
+	}
+	students.push_back(student);
+	enrolled++;
+	return true;
+}
+bool KeCheng::removeStudent(const std::string& studentId) {
+	auto it = std::find_if(students.begin(), students.end(),
+		[&studentId](const Student& student) {
+			return student.id== studentId;
+		});
+	if (it != students.end()) {
+		students.erase(it); // 从vector中移除找到的学生
+		return true;
+	}
+	return false;
+}
 
 //记得定义四个成员函数
 template <typename T>
