@@ -5,61 +5,90 @@
 
 class Student {
 public:
-    Student(const char* ID = "00000000", const char* Name = "NoName", double GPA = 0.0);
-    Student(const Student& other);
-    ~Student();
-    Student& operator=(const Student& other);
-    bool Login(const char* ID, const char* Password);//登陆账号
-    void QueryCourses();//查询课程
-    bool SelectCourse(const string& courseID);//选课
-    void QuerySelectedCourses();//查询选课情况
-    bool DropCourse(const string& courseID);//退课
-    void Logout();//退出账号
+	Student(const char* ID = "00000000", const char* Name = "NoName", double GPA = 0.0);
+	Student(const Student& other);
+        ~Student();
+	Student& operator=(const Student& other);
+	bool Login(const char* ID, const char* Password);//登陆账号
+	void QueryCourses();//查询课程
+	bool SelectCourse(KeCheng& const course);//选课
+	void QuerySelectedCourses();//查询选课情况
+	bool DropCourse(KeCheng& const course);//退课
+	void Logout();//退出账号
 
 private:
-    string id, name;
-    double GPA;
-    LinkList<KeCheng> selectedCourses;
-};//Student的属性，参照AddressBook与Banking的class
+	string id, name;
+	double GPA;
+	LinkList<KeCheng> selectedCourses;
+	friend class KeCheng;
+};
 
-Student::Student(const char* ID = "00000000", const char* Name = "NoName", double GPA = 0.0))//在外面定义刚声明的函数
+Student::Student(const char* ID = "00000000", const char* Name = "NoName", double GPA = 0.0)//在外面定义刚声明的函数
 {
 }
 
-LinkList<KeCheng> g_allCourses;//存储所有课程信息
+Student::Student(const Student& other)
+	: id(other.id), name(other.name), GPA(other.GPA), selectedCourses(other.selectedCourses) {}
 
-bool Login(const char* ID, const char* Password) {
-    if (this->id == ID && Password == "password") {
-        cout << name << " logged in successfully." << endl;
-        return true;
-    }
-    else {
-        cout << "Login failed. Incorrect ID or password." << endl;
-        return false;
-    }
+Student::~Student() {}
+
+Student& Student::operator=(const Student& other) {
+	if (this != &other) {
+		id = other.id;
+		name = other.name;
+		GPA = other.GPA;
+		selectedCourses = other.selectedCourses;
+	}
+	return *this;
+}
+
+bool Student::Login(const char* ID, const char* Password) {
+	if (this->id == ID && Password == "password") {
+		cout << " logged in successfully." << endl;
+		return true;
+	}
+	else {
+		cout << "Login failed. Incorrect ID or password." << endl;
+		return false;
+	}
 }//登陆账号
 
-void QueryCourses() {
-    cout << "课程:" << endl;
-    g_allCourses.ShowList();
-}//查询课程
+void Student::QueryCourses() {
+	cout << "课程:" << endl;
+	g_allCourses.ShowList();
+}
 
-bool SelectCourse(const string& courseID){
-	
-}//选课
+bool Student::SelectCourse (KeCheng& const course) {
+	if (course.addStudent(*this)) {
+		cout << "Successfully selected course: " << course.courseNumber << endl;
+		return true;
+	}
+	else {
+		cout << "Failed to select course: " << course.courseNumber << " (Course is full or other issues)" << endl;
+		return false;
+	}
+}
 
-void QuerySelectedCourses() {
-    cout << name << "已选课程:" << endl;
-    selectedCourses.ShowList();
+void Student::QuerySelectedCourses() {
+	cout << "已选课程:" << endl;
+	selectedCourses.ShowList();
 }//查询选课情况
 
-bool DropCourse(const string& courseID){
-	 
- }//退课
+bool Student::DropCourse(const std::string& courseID) {
+	for (auto& course : selectedCourses) {
+		if (course.courseNumber == courseID) {
+			course.deleteStudent(ID);
+			return true;
+		}
+	}
+	return false;
+}
 
-void Logout() {
-        cout << name << " has logged out." << endl;
-    }//退出登陆
+void Student::Logout() {
+	cout <<"退出登陆" << endl;
+}//退出登陆
+
+
 class KeCheng
 {
 public:
