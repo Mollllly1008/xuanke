@@ -99,13 +99,14 @@ public:
     void sortStudents();//根据绩点排序学生
     void deleteStudents();//剔除超出容量的学生
     void printCourseMembers() const;//输出课程成员
-    bool removeStudent(const std::string& studentId)；
-    bool addStudent(const Student& student);
+    bool removeStudent(const std::string& studentId)；//移除学生方法
+    bool addStudent(const Student& student);//添加学生方法
 
 private:
     string courseName, courseNumber, courseTime, courseTeacher, courseLocation;
     vector<Student> students;
     int capacity, enrolled;
+    friend class Student;
 };
 
 //课程函数定义
