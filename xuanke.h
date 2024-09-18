@@ -9,24 +9,25 @@
 #include <iostream>
 using namespace std;
  
-class Student
-{
+class Student {
 public:
-Student(const char* ID = "00000000", const char* Name = "NoName", double GPA = 0.0);
-Student(const Student& other);
-~Student();
-Student& operator=(const Student& other);
-bool Login(const char* ID, const char* Password);//登陆账号
-void QueryCourses();//查询课程
-bool SelectCourse(const string& courseID);//选课
-void QuerySelectedCourses();//查询选课情况
-bool DropCourse(const string& courseID);//退课
-void Logout();//退出账号
+	Student(const char* ID = "00000000", const char* Name = "NoName", double GPA = 0.0);
+	Student(const Student& other);
+        ~Student();
+	Student& operator=(const Student& other);
+	bool Login(const char* ID, const char* Password);//登陆账号
+	void QueryCourses();//查询课程
+	bool SelectCourse(KeCheng& const course);//选课
+	void QuerySelectedCourses();//查询选课情况
+	bool DropCourse(const std::string& courseID);//退课
+	void Logout();//退出账号
+
 private:
-string id, name;
-double GPA;
-LinkList<KeCheng> selectedCourses;
-};//Student的属性，参照AddressBook与Banking的class
+	string id, name;
+	double GPA;
+	LinkList<KeCheng> selectedCourses;
+	friend class KeCheng;
+};
 
 class KeCheng
 {
