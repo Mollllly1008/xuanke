@@ -2,7 +2,7 @@
 #include "LinkList.h"
 #include "Banking.h"
 #include <conio.h>
-
+LinkList<KeCheng>g_allCourses;
 class Student {
 public:
 	Student(const char* ID = "00000000", const char* Name = "NoName", double GPA = 0.0);
