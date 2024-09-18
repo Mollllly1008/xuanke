@@ -1,92 +1,94 @@
-//XuanKe.cpp
+/*//XuanKe.cpp
 #include "LinkList.h"
 #include "Banking.h"
+#include<vector>
 #include <conio.h>
+
 LinkList<KeCheng>g_allCourses;
 class Student {
 public:
-	Student(const char* ID = "00000000", const char* Name = "NoName", double GPA = 0.0);
-	Student(const Student& other);
-        ~Student();
-	Student& operator=(const Student& other);
-	bool Login(const char* ID, const char* Password);//ç™»é™†è´¦å·
-	void QueryCourses();//æŸ¥è¯¢è¯¾ç¨‹
-	bool SelectCourse(KeCheng& const course);//é€‰è¯¾
-	void QuerySelectedCourses();//æŸ¥è¯¢é€‰è¯¾æƒ…å†µ
-	bool DropCourse(const std::string& courseID);//é€€è¯¾
-	void Logout();//é€€å‡ºè´¦å·
+    Student(const char* ID, const char* Name , double GPA);
+    Student(const Student& other);
+    ~Student();
+    Student& operator=(const Student& other);
+    bool Login(const char* ID, const char* Password);//µÇÂ½ÕËºÅ
+    void QueryCourses();//²éÑ¯¿Î³Ì
+    bool SelectCourse(KeCheng& const course);//Ñ¡¿Î
+    void QuerySelectedCourses();//²éÑ¯Ñ¡¿ÎÇé¿ö
+    bool DropCourse(const std::string& courseID);//ÍË¿Î
+    void Logout();//ÍË³öÕËºÅ
 
 private:
-	string id, name;
-	double GPA;
-	LinkList<KeCheng> selectedCourses;
-	friend class KeCheng;
+    string id, name;
+    double GPA;
+    LinkList<KeCheng> selectedCourses;
+    friend class KeCheng;
 };
 
-Student::Student(const char* ID = "00000000", const char* Name = "NoName", double GPA = 0.0)//åœ¨å¤–é¢å®šä¹‰åˆšå£°æ˜çš„å‡½æ•°
+Student::Student(const char* ID = "00000000", const char* Name = "NoName", double GPA = 0.0)//ÔÚÍâÃæ¶¨Òå¸ÕÉùÃ÷µÄº¯Êı
 {
 }
 
 Student::Student(const Student& other)
-	: id(other.id), name(other.name), GPA(other.GPA), selectedCourses(other.selectedCourses) {}
+    : id(other.id), name(other.name), GPA(other.GPA), selectedCourses(other.selectedCourses) {}
 
 Student::~Student() {}
 
 Student& Student::operator=(const Student& other) {
-	if (this != &other) {
-		id = other.id;
-		name = other.name;
-		GPA = other.GPA;
-		selectedCourses = other.selectedCourses;
-	}
-	return *this;
+    if (this != &other) {
+        id = other.id;
+        name = other.name;
+        GPA = other.GPA;
+        selectedCourses = other.selectedCourses;
+    }
+    return *this;
 }
 
 bool Student::Login(const char* ID, const char* Password) {
-	if (this->id == ID && Password == "password") {
-		cout << " logged in successfully." << endl;
-		return true;
-	}
-	else {
-		cout << "Login failed. Incorrect ID or password." << endl;
-		return false;
-	}
-}//ç™»é™†è´¦å·
+    if (this->id == ID && Password == "password") {
+        cout << " logged in successfully." << endl;
+        return true;
+    }
+    else {
+        cout << "Login failed. Incorrect ID or password." << endl;
+        return false;
+    }
+}//µÇÂ½ÕËºÅ
 
 void Student::QueryCourses() {
-	cout << "è¯¾ç¨‹:" << endl;
-	g_allCourses.ShowList();
+    cout << "¿Î³Ì:" << endl;
+    g_allCourses.ShowList();
 }
 
 bool Student::SelectCourse(KeCheng& course) {
-	if (course.addStudent(*this)) {
-		selectedCourses.Append(course); // å°†è¯¾ç¨‹æ·»åŠ åˆ°å­¦ç”Ÿçš„é€‰è¯¾é“¾è¡¨ä¸­
-		return true;
-	}
-	return false;
-}//é€‰è¯¾
+    if (course.addStudent(*this)) {
+        selectedCourses.Append(course); // ½«¿Î³ÌÌí¼Óµ½Ñ§ÉúµÄÑ¡¿ÎÁ´±íÖĞ
+        return true;
+    }
+    return false;
+}//Ñ¡¿Î
 
 void Student::QuerySelectedCourses() {
-	cout << "å·²é€‰è¯¾ç¨‹:" << endl;
-	selectedCourses.ShowList();
-}//æŸ¥è¯¢é€‰è¯¾æƒ…å†µ
+    cout << "ÒÑÑ¡¿Î³Ì:" << endl;
+    selectedCourses.ShowList();
+}//²éÑ¯Ñ¡¿ÎÇé¿ö
 
 bool Student::DropCourse(const std::string& courseID) {
-	for (auto it = selectedCourses.GoTop(); it != nullptr; it = selectedCourses.Skip(1)) {
-		if (it->data.courseNumber == courseID) {
-			if (it->data.removeStudent(id)) {
-				selectedCourses.DeleteCurNode(); // ä»é“¾è¡¨ä¸­åˆ é™¤è¯¾ç¨‹
-				return true;
-			}
-			break; // æ‰¾åˆ°è¯¾ç¨‹åä¸éœ€è¦ç»§ç»­æœç´¢
-		}
-	}
-	return false;
-}//é€€è¯¾
+    for (auto it = selectedCourses.GoTop(); it != nullptr; it = selectedCourses.Skip(1)) {
+        if (it->data.courseNumber == courseID) {
+            if (it->data.removeStudent(id)) {
+                selectedCourses.DeleteCurNode(); // ´ÓÁ´±íÖĞÉ¾³ı¿Î³Ì
+                return true;
+            }
+            break; // ÕÒµ½¿Î³Ìºó²»ĞèÒª¼ÌĞøËÑË÷
+        }
+    }
+    return false;
+}//ÍË¿Î
 
 void Student::Logout() {
-	cout <<"é€€å‡ºç™»é™†" << endl;
-}//é€€å‡ºç™»é™†
+    cout << "ÍË³öµÇÂ½" << endl;
+}//ÍË³öµÇÂ½
 
 
 class KeCheng
@@ -96,129 +98,103 @@ public:
     KeCheng(const KeCheng& other);
     ~KeCheng();
     KeCheng& operator=(const KeCheng& other);
-    void sortStudents();//æ ¹æ®ç»©ç‚¹æ’åºå­¦ç”Ÿ
-    void deleteStudents();//å‰”é™¤è¶…å‡ºå®¹é‡çš„å­¦ç”Ÿ
-    void printCourseMembers() const;//è¾“å‡ºè¯¾ç¨‹æˆå‘˜
-    bool removeStudent(const std::string& studentId)ï¼›//ç§»é™¤å­¦ç”Ÿæ–¹æ³•
-    bool addStudent(const Student& student);//æ·»åŠ å­¦ç”Ÿæ–¹æ³•
+    //void sortStudents();//¸ù¾İ¼¨µãÅÅĞòÑ§Éú
+    void deleteStudents();//ÌŞ³ı³¬³öÈİÁ¿µÄÑ§Éú
+    void printCourseMembers() const;//Êä³ö¿Î³Ì³ÉÔ±
 
 private:
     string courseName, courseNumber, courseTime, courseTeacher, courseLocation;
     vector<Student> students;
     int capacity, enrolled;
-    friend class Student;
 };
 
-//è¯¾ç¨‹å‡½æ•°å®šä¹‰
-KeCheng::KeCheng(string name, string ID, string time, string teacher, string location, int cap) :courseName(name),courseID(ID), courseTime(time),courseTeacher(teacher),courseLocation(location),capacity(cap),enrolled(0)
-{  
+//¿Î³Ìº¯Êı¶¨Òå
+KeCheng::KeCheng(string name, string ID, string time, string teacher, string location, int cap) :courseName(name), courseNumber(ID), courseTime(time), courseTeacher(teacher), courseLocation(location), capacity(cap), enrolled(0)
+{
 }
 
-// æ ¹æ®ç»©ç‚¹æ’åºå­¦ç”Ÿ
-void KeCheng::sortStudents() 
+// ¸ù¾İ¼¨µãÅÅĞòÑ§Éú
+/*void KeCheng::sortStudents()
 {
-    std::sort(students.begin(), students.end(), [](const Student& a, const Student& b)
+    sort(students.begin(), students.end(), [](const Student& a, const Student& b)
         {
-        return a.gpa > b.gpa;
+            return a.GPA > b.GPA;
         });
 
 }
+*/
 
-// å‰”é™¤è¶…å‡ºå®¹é‡çš„å­¦ç”Ÿ
+// ÌŞ³ı³¬³öÈİÁ¿µÄÑ§Éú
 void KeCheng::deleteStudents()
 {
-    if (students.size() > capacity) 
+    if (students.size() > capacity)
     {
         students.resize(capacity);
         enrolled = capacity;
     }
 }
 
-// è¾“å‡ºè¯¾ç¨‹æˆå‘˜
+// Êä³ö¿Î³Ì³ÉÔ±
 void KeCheng::printCourseMembers() const
 {
     cout << "Course: " << courseName << " (" << courseNumber << ")" << endl;
     cout << "Time: " << courseTime << ", Teacher: " << courseTeacher << ", Location: " << courseLocation << endl;
     cout << "Enrolled Students: " << std::endl;
-    for (const auto& student : students) 
+    for (const auto&  student : students)
     {
         cout << "  " << student.name << " (GPA: " << student.gpa << ")" << endl;
     }
 }
-bool KeCheng::addStudent(const Student& student) {
-	if (enrolled >= capacity) {
-		cout << "Course is full. Cannot add more students." << endl;
-		return false;
-	}
-	students.push_back(student);
-	enrolled++;
-	return true;
-}
-bool KeCheng::removeStudent(const std::string& studentId) {
-	auto it = std::find_if(students.begin(), students.end(),
-		[&studentId](const Student& student) {
-			return student.id== studentId;
-		});
-	if (it != students.end()) {
-		students.erase(it); // ä»vectorä¸­ç§»é™¤æ‰¾åˆ°çš„å­¦ç”Ÿ
-		return true;
-	}
-	return false;
-}
 
-//è®°å¾—å®šä¹‰å››ä¸ªæˆå‘˜å‡½æ•°
+
+//¼ÇµÃ¶¨ÒåËÄ¸ö³ÉÔ±º¯Êı
 template <typename T>
 void XuanKeTest()
 {
-	LinkList<Student> Student;
-	LinkList<KeCheng> KeCheng;
-	char key;
-	while (true)
-	{
-		cout << "\n\n========= é€‰è¯¾ç³»ç»Ÿ =========" << endl;
-		cout << "  a ---- ç™»å½•å­¦ç”Ÿè´¦å· (P)" << endl;
-		cout << "  b ---- é€‰æ‹©    è¯¾ç¨‹ (I)" << endl;
-		cout << "  c ---- æŸ¥è¯¢é€‰è¯¾æ’å (A)" << endl;
-		cout << "  d ---- é€€        è¯¾ (S)" << endl;
-		cout << "  e ---- è¾“å‡º    è¯¾è¡¨ (E)" << endl;
-		cout << "  f ---- é€€å‡ºå­¦ç”Ÿè´¦å· (V)" << endl;
-		cout << "  g ---- ç™»å½•è€å¸ˆè´¦å· (O)" << endl;
-		cout << "  h ---- ç»©ç‚¹    æ’åº (W)" << endl;
-		cout << "  i ---- è¸¢        è¯¾ (R)" << endl;
-		cout << "  j ---- è¾“å‡ºè¯¾ç¨‹æˆå‘˜ (F)" << endl;
-		cout << "  k ---- é€€å‡ºè€å¸ˆè´¦å· (Q)" << endl;
-		cout << "  l ---- é€€å‡º    ç½‘ç«™(ESC)" << endl;
-		cout << "==========================" << endl;
-		key = Choice("è¯·é€‰æ‹©", "abcdefghijkl\x1bpPiIaAsSvVoOwWrRfF");
-		cout << "\n\n";
-		if (key == 27 || key == 'l')		// '\x1b'ç­‰äº27ï¼ŒæŒ‡ESCé”®
-			break;
-		switch (key)
-		{
-		case 'a':
-		case 'P':	//ç™»é™†å­¦ç”Ÿè´¦å·ï¼ˆBankingä¸BankingTestæœ‰ï¼‰
-		case 'b':
-		case 'I':	//é€‰æ‹©è¯¾ç¨‹ï¼ˆå…ˆè¾“å…¥è¯¾ç¨‹å·ï¼Œåè¾“å‡ºè¯¾ç¨‹çš„å„å†…å®¹ï¼Œå†è¾“å‡ºæ˜¯å¦é€‰è¯¥è¯¾ç¨‹ï¼Œè¾“å…¥yesåè¯¾ç¨‹çš„å­¦ç”Ÿæ•°æ®å¤šä¸€ä¸ªè¯¥ç”Ÿï¼Œè¯¥ç”Ÿçš„è¯¾ç¨‹æ•°æ®å¤šä¸€ä¸ªè¯¥è¯¾ç¨‹ï¼‰cout << "æ’å…¥ä¸€ä¸ªç»“ç‚¹åˆ°é“¾è¡¨é¦–ç»“ç‚¹å‰ã€‚" << endl;
-		case 'c':
-		case 'A':	//æŸ¥è¯¢è¯¾ç¨‹æ’åï¼ˆè¾“å‡ºä¸€å¼ è¡¨ï¼Œæœ‰è¯¾ç¨‹å·ï¼Œè¯¾ç¨‹åç§°ï¼Œå®¹é‡ï¼Œæ’åç­‰ï¼Œå‚ç…§ä¸Šæµ·å¤§å­¦çš„é€‰è¯¾ç½‘ç«™çš„é€‰è¯¾æ’åæƒ…å†µï¼‰cout << "è¿½åŠ ä¸€ä¸ªç»“ç‚¹(è‡³å°¾ç»“ç‚¹å)ã€‚";
-			
-		case 'd':
-		case 'S':	//é€€è¯¾(è¾“å…¥è¯¾ç¨‹å·ï¼Œè¾“å‡ºæ˜¯å¦é€€è¯¾ï¼Œè¾“å…¥yesï¼Œè¯¾ç¨‹åˆ æ‰è¿™ä¸ªç»“ç‚¹ï¼Œå­¦ç”Ÿçš„è¯¾ç¨‹æ•°æ®åˆ æ‰è¿™ä¸ªè¯¾ç¨‹)cout << "æ ¹æ®æ•°æ®åŸŸæ•°æ®æŸ¥è¯¢ã€‚å¯æ ¹æ®å¦‚ä¸‹ä¸‰ç§æ–¹å¼æŸ¥è¯¢ã€‚" << endl;
-		case 'e':
-		case 'E'://è¾“å‡ºè¯¾è¡¨ï¼ˆè¾“å‡ºä¸€å¼ è¡¨ï¼ŒåŒ…å«è¯¾ç¨‹çš„æ‰€æœ‰ä¿¡æ¯ï¼‰
-		case 'f':
-		case 'V':	//é€€å‡ºå­¦ç”Ÿè´¦å·ï¼ˆå‚è€ƒBankingä¸BankingTest)
-		case 'g':
-		case 'O':	//ç™»é™†è€å¸ˆè´¦å·
-		case 'h':
-		case 'W':  //ç»©ç‚¹æ’åºï¼ˆè¿ç”¨æ’åºå‡½æ•°ï¼Œå°†æµ®ç‚¹æ•°çš„ç»©ç‚¹æ’åºï¼Œå¹¶è¾“å‡ºï¼Œè¯¾ç¨‹æ¨¡æ¿ä¸­éœ€åŒ…å«å­¦ç”Ÿç»©ç‚¹æ’åï¼‰
-		case 'i':
-		case 'R':	//è¸¢è¯¾ï¼ˆä»¥å®¹é‡ä¸ºä¾æ®ï¼Œå°†æ’ååœ¨å®¹é‡å¤–çš„è¯¾ç¨‹å­¦ç”Ÿæ•°æ®åˆ é™¤ï¼Œå­¦ç”Ÿçš„è¯¥è¯¾ç¨‹æ•°æ®ä¹Ÿåˆ é™¤ï¼‰
-		case 'j':
-		case 'F':	//è¾“å‡ºè¯¾ç¨‹æˆå‘˜ï¼ˆå°†è¯¾ç¨‹çš„å­¦ç”Ÿæ•°æ®è¾“å‡ºï¼‰
-		case 'k':
-		case 'Q':  //é€€å‡ºè€å¸ˆè´¦å·
-		}
-	}
+    Student student;
+    LinkList<KeCheng*> courses;
+    char key;
+    while (true)
+    {
+        cout << "\n\n========= Ñ¡¿ÎÏµÍ³ =========" << endl;
+        cout << "  a ---- µÇÂ¼Ñ§ÉúÕËºÅ (P)" << endl;
+        cout << "  b ---- Ñ¡Ôñ    ¿Î³Ì (I)" << endl;
+        cout << "  c ---- ²éÑ¯Ñ¡¿ÎÅÅÃû (A)" << endl;
+        cout << "  d ---- ÍË        ¿Î (S)" << endl;
+        cout << "  f ---- ÍË³öÑ§ÉúÕËºÅ (V)" << endl;
+        cout << "  h ---- ¼¨µã    ÅÅĞò (W)" << endl;
+        cout << "  i ---- Ìß        ¿Î (R)" << endl;
+        cout << "  j ---- Êä³ö¿Î³Ì³ÉÔ± (F)" << endl;
+        cout << "  l ---- ÍË³ö    ÍøÕ¾(ESC)" << endl;
+        cout << "==========================" << endl;
+        key = Choice("ÇëÑ¡Ôñ", "abcdefghijkl\x1bpPiIaAsSvVoOwWrRfF");
+        cout << "\n\n";
+        if (key == 27 || key == 'l')		// '\x1b'µÈÓÚ27£¬Ö¸ESC¼ü
+            break;
+        switch (key)
+        {
+        case 'a':
+        case 'P':	Student.Login(); break; //µÇÂ½Ñ§ÉúÕËºÅ£¨BankingÓëBankingTestÓĞ£©
+        case 'b':
+        case 'I':	Student.SelectCourse(); break;//Ñ¡Ôñ¿Î³Ì£¨ÏÈÊäÈë¿Î³ÌºÅ£¬ºóÊä³ö¿Î³ÌµÄ¸÷ÄÚÈİ£¬ÔÙÊä³öÊÇ·ñÑ¡¸Ã¿Î³Ì£¬ÊäÈëyesºó¿Î³ÌµÄÑ§ÉúÊı¾İ¶àÒ»¸ö¸ÃÉú£¬¸ÃÉúµÄ¿Î³ÌÊı¾İ¶àÒ»¸ö¸Ã¿Î³Ì£©cout << "²åÈëÒ»¸ö½áµãµ½Á´±íÊ×½áµãÇ°¡£" << endl;
+        case 'c':
+        case 'A':	Student.QuerySelectedCourses(); break;//²éÑ¯¿Î³ÌÅÅÃû£¨Êä³öÒ»ÕÅ±í£¬ÓĞ¿Î³ÌºÅ£¬¿Î³ÌÃû³Æ£¬ÈİÁ¿£¬ÅÅÃûµÈ£¬²ÎÕÕÉÏº£´óÑ§µÄÑ¡¿ÎÍøÕ¾µÄÑ¡¿ÎÅÅÃûÇé¿ö£©cout << "×·¼ÓÒ»¸ö½áµã(ÖÁÎ²½áµãºó)¡£";
+        case 'd':
+        case 'S':	Student.DropCourse(); break;//ÍË¿Î(ÊäÈë¿Î³ÌºÅ£¬Êä³öÊÇ·ñÍË¿Î£¬ÊäÈëyes£¬¿Î³ÌÉ¾µôÕâ¸ö½áµã£¬Ñ§ÉúµÄ¿Î³ÌÊı¾İÉ¾µôÕâ¸ö¿Î³Ì)cout << "¸ù¾İÊı¾İÓòÊı¾İ²éÑ¯¡£¿É¸ù¾İÈçÏÂÈıÖÖ·½Ê½²éÑ¯¡£" << endl;
+        case 'f':
+        case 'V':	Student.Logout(); break;//ÍË³öÑ§ÉúÕËºÅ£¨²Î¿¼BankingÓëBankingTest)
+        case 'h':
+        case 'W':  cout << "ÅÅĞò¸ù¾İ¼¨µã ";
+                   KeCheng.Sort(int(0));					// µÚÒ»¸ö²ÎÊı´«µİµÄÊıÖµ²»ÖØÒª£¬ÖØÒªµÄÊÇÊı¾İÀàĞÍ
+                   cout << "\n°´ĞòºÅ£¨ÉıĞò£©ÅÅĞò½á¹û\n" << link << endl;
+                   KeCheng.Sort(int(0), false);
+                   break;
+        case 'i':
+        case 'R':	KeCheng.DeleteStudents(); break;//Ìß¿Î£¨ÒÔÈİÁ¿ÎªÒÀ¾İ£¬½«ÅÅÃûÔÚÈİÁ¿ÍâµÄ¿Î³ÌÑ§ÉúÊı¾İÉ¾³ı£¬Ñ§ÉúµÄ¸Ã¿Î³ÌÊı¾İÒ²É¾³ı£©
+        case 'j':
+        case 'F':	KeCheng.printCourseMembers(); break;//Êä³ö¿Î³Ì³ÉÔ±£¨½«¿Î³ÌµÄÑ§ÉúÊı¾İÊä³ö£©
+        }
+    }
 
 }
+*/
