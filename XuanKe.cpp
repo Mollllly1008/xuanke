@@ -13,7 +13,7 @@ public:
 	void QueryCourses();//查询课程
 	bool SelectCourse(KeCheng& const course);//选课
 	void QuerySelectedCourses();//查询选课情况
-	bool DropCourse(KeCheng& const course);//退课
+	bool DropCourse(const std::string& courseID);//退课
 	void Logout();//退出账号
 
 private:
@@ -58,16 +58,13 @@ void Student::QueryCourses() {
 	g_allCourses.ShowList();
 }
 
-bool Student::SelectCourse (KeCheng& const course) {
+bool Student::SelectCourse(KeCheng& course) {
 	if (course.addStudent(*this)) {
-		cout << "Successfully selected course: " << course.courseNumber << endl;
+		selectedCourses.Append(course); // 将课程添加到学生的选课链表中
 		return true;
 	}
-	else {
-		cout << "Failed to select course: " << course.courseNumber << " (Course is full or other issues)" << endl;
-		return false;
-	}
-}
+	return false;
+}//选课
 
 void Student::QuerySelectedCourses() {
 	cout << "已选课程:" << endl;
@@ -75,14 +72,17 @@ void Student::QuerySelectedCourses() {
 }//查询选课情况
 
 bool Student::DropCourse(const std::string& courseID) {
-	for (auto& course : selectedCourses) {
-		if (course.courseNumber == courseID) {
-			course.deleteStudent(ID);
-			return true;
+	for (auto it = selectedCourses.GoTop(); it != nullptr; it = selectedCourses.Skip(1)) {
+		if (it->data.courseNumber == courseID) {
+			if (it->data.removeStudent(id)) {
+				selectedCourses.DeleteCurNode(); // 从链表中删除课程
+				return true;
+			}
+			break; // 找到课程后不需要继续搜索
 		}
 	}
 	return false;
-}
+}//退课
 
 void Student::Logout() {
 	cout <<"退出登陆" << endl;
